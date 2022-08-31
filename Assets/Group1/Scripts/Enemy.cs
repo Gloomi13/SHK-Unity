@@ -4,24 +4,30 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    private Vector3 Target;
+    [SerializeField] private float _radius = 4.0f;
+    [SerializeField] private float _speed = 2.0f;
+    private Vector3 _target;
 
-    // Start is called before the first frame update
-    void Start()
+    public void Death()
     {
-        Tar();
+        Destroy(gameObject);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        transform.position = Vector3.MoveTowards(transform.position, Target, 2 * Time.deltaTime);
-        if (transform.position == Target)
-            Tar();
+        ChangeTarget();
     }
 
-        void Tar()
+    private void Update()
     {
-        Target = Random.insideUnitCircle * 4;
+        transform.position = Vector3.MoveTowards(transform.position, _target, _speed * Time.deltaTime);
+        if (transform.position == _target)
+            ChangeTarget();
     }
+
+    private void ChangeTarget()
+    {
+        _target = Random.insideUnitCircle * _radius;
+    }
+
 }
